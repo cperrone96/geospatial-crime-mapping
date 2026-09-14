@@ -1,0 +1,22 @@
+{
+  "analysis_type": "descriptive_coursework",
+  "observation_unit": "police incident report",
+  "valid_rows": 150500,
+  "display_sample_rows": 500,
+  "data_quality": {
+    "source_rows": 150500,
+    "missing_coordinates": 0,
+    "coordinates_outside_documented_sf_bounds": 0,
+    "unparsed_report_timestamps": 0,
+    "duplicate_incident_ids": 0
+  },
+  "largest_category": {
+    "category": "LARCENY/THEFT",
+    "reported_incidents": 40409
+  },
+  "largest_district": {
+    "district": "SOUTHERN",
+    "reported_incidents": 28445
+  },
+  "nonclaim": "Counts are neither crime rates nor evidence that a location is safe or unsafe."
+}

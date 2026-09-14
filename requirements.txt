@@ -1,2 +1,4 @@
-pandas
-folium
+pandas>=2.1,<2.4
+folium>=0.17,<0.21
+jupyterlab>=3.6,<5.0
+nbclient>=0.8,<0.11

@@ -1,0 +1,12 @@
+{
+  "retrieved_utc": "2026-09-14",
+  "course": "IBM Data Visualization with Python coursework",
+  "dataset": "Police Department Incidents - Previous Year (2016)",
+  "observation_unit": "one San Francisco Police Department incident report",
+  "ibm_mirror_url": "https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-DV0101EN-SkillsNetwork/Data%20Files/Police_Department_Incidents_-_Previous_Year__2016_.csv",
+  "upstream_portal": "https://data.sfgov.org/",
+  "file": "raw/sf_incidents_2016.csv.gz",
+  "uncompressed_sha256": "d39836ba743c48cfdbf34a644dcd90ef5722e6635afa5c0b7cbf67d690f38874",
+  "compressed_sha256": "518ff0eea451732b1d6dc0ea812fad597375361057649e299d52af9ff8619b56",
+  "license_note": "The snapshot is a municipal open-data extract mirrored for IBM coursework. Consult the DataSF terms before reuse; no additional license is asserted here."
+}
