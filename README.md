@@ -1,39 +1,62 @@
-# San Francisco Incident Mapping & Data-Quality Audit
+# San Francisco Police Incident Mapping
 
-> **Scope:** An independently remediated IBM *Data Visualization with Python* coursework artifact. It demonstrates geospatial validation, deterministic sampling, aggregation, and interactive mapping; it is not a crime-risk model.
+Where and when were police incidents recorded in San Francisco in 2016, and which kinds dominate? This project validates the SFPD incident extract, corrects the unit of analysis from offense rows to incidents, and maps the result with Folium and a static density map.
 
-## Question and decision context
+## Key results
 
-What categories and police districts account for the most incident reports in this archived 2016 extract, and can its coordinates support an exploratory point map? The map is a descriptive review tool for analysts—not a basis for policing, housing, travel, or personal-safety decisions.
+| Measure | Value |
+|---|---:|
+| Incidents (offense records) | 116,699 (150,500) |
+| Offenses per incident | 1.29 |
+| Largest category: larceny/theft | 39,988 incidents, 34.3% of all incidents |
+| Busiest district: Southern | 22,239 incidents, 19.1% |
+| Busiest hour / quietest hour | 18:00 (6.7% of incidents) / 05:00 (1.1%) |
+| Rows failing validation (coordinates, timestamps, duplicate IDs) | 0 |
 
-## Data and design
+![Hexbin density map of 2016 San Francisco police incidents](outputs/figures/incident_density.png)
 
-- Observation unit: one SFPD incident report; 150,500 source rows.
-- Source: 2016 municipal incident-report extract distributed through IBM Skills Network and traced to DataSF.
-- Version: retrieval date, URLs, compressed and uncompressed SHA-256 checksums, and licensing caveat are in [`data/SOURCES.json`](data/SOURCES.json).
-- Quality checks: required schema, timestamp parsing, unique incident IDs, and documented San Francisco coordinate bounds.
-- Display: a seeded 500-record sample keeps the browser map responsive. Aggregated counts use all valid rows.
+Incidents concentrate in the northeast of the city: downtown, SoMa and the Tenderloin.
 
-## Findings
+## Approach
 
-All 150,500 records had parseable timestamps and coordinates inside the documented bounds; no duplicate `PdId` values were detected. `LARCENY/THEFT` was the largest category (40,409 reports), and `SOUTHERN` the largest district grouping (28,445 reports). These are raw report counts—not population-, exposure-, or time-adjusted rates.
+- **Data validation:** schema check, timestamp parsing, a San Francisco bounding box for coordinates, and uniqueness of offense IDs (`PdId`).
+- **Unit of analysis:** each source row is one offense, and one incident (`IncidntNum`) can carry several. Counting rows overstates incidents by 29%, so categories are counted both ways and districts by distinct incident.
+- **Aggregation with pandas:** counts and shares by category, police district and hour of day.
+- **Static geospatial visualization:** a log-scaled hexbin of all incident coordinates with matplotlib.
+- **Interactive mapping:** a Folium (Leaflet) map with `MarkerCluster` over a seeded 500-incident sample, which keeps the page responsive.
+
+## Data
+
+[Police Department Incidents, Previous Year (2016)](https://data.sfgov.org/), San Francisco Police Department via DataSF, as mirrored by IBM Skills Network for the IBM Data Visualization with Python course. The compressed copy in `data/raw/` and its checksums are listed in [`data/SOURCES.json`](data/SOURCES.json). Check DataSF's terms before reuse.
+
+- **Unit:** one incident (one or more offense rows).
+- **n:** 116,699 incidents, 150,500 offense rows.
+- **Time span:** January 1 to December 31, 2016.
+
+## Repository structure
+
+```text
+analysis.py               # validation, aggregation, density figure, Folium map
+sf_crime_folium.ipynb     # walkthrough with tables, charts and the interactive map
+data/raw/                 # sf_incidents_2016.csv.gz
+data/SOURCES.json         # source URL and checksums
+outputs/                  # metrics.json, category/district counts, map sample, figures/
+tests/test_analysis.py
+```
 
 ## Reproduce
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
+python3.12 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-python analysis.py --write-map
-python -m unittest discover -s tests -v
-jupyter execute sf_crime_folium.ipynb
+python analysis.py --write-map    # also writes outputs/incident_map.html
+pytest -q
+jupyter nbconvert --to notebook --execute --inplace sf_crime_folium.ipynb
 ```
 
-Outputs include JSON quality metrics, category/district tables, a reproducible map sample, and `incident_map.html`. CI repeats the script, tests, and clean-kernel notebook run.
+## Limitations
 
-## Limitations and nonclaims
-
-- Incident reports reflect reporting, recording, enforcement, and administrative processes; they are not all events that occurred.
-- Counts lack population, foot-traffic, land-use, and exposure denominators and must not be interpreted as rates.
-- Multiple reports can relate to one event even when report IDs are unique.
-- The map does not estimate causes, treatment effects, future risk, or whether any area is safe or unsafe.
+- Incident records reflect what was reported and recorded, which varies with enforcement and reporting behavior, not every event that happened.
+- Counts aren't rates: there's no population, visitor or land-use denominator, so a busy district isn't necessarily a riskier one.
+- The data covers one year under the district boundaries in use in 2016. SFPD redrew its districts in October 2026.
+- Folium maps don't render in GitHub's notebook preview. Open the notebook in Jupyter or nbviewer.

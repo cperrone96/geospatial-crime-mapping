@@ -1,22 +1,48 @@
 {
-  "analysis_type": "descriptive_coursework",
-  "observation_unit": "police incident report",
-  "valid_rows": 150500,
-  "display_sample_rows": 500,
   "data_quality": {
-    "source_rows": 150500,
+    "offense_records": 150500,
+    "distinct_incidents": 116699,
     "missing_coordinates": 0,
-    "coordinates_outside_documented_sf_bounds": 0,
-    "unparsed_report_timestamps": 0,
-    "duplicate_incident_ids": 0
+    "coordinates_outside_sf_bounding_box": 0,
+    "unparsed_timestamps": 0,
+    "duplicate_offense_ids": 0,
+    "missing_district": 1
   },
-  "largest_category": {
-    "category": "LARCENY/THEFT",
-    "reported_incidents": 40409
-  },
+  "valid_offense_records": 150500,
+  "valid_incidents": 116699,
+  "offenses_per_incident_mean": 1.289642584769364,
+  "top_categories_by_incidents": [
+    {
+      "category": "LARCENY/THEFT",
+      "offense_records": 40409,
+      "incidents": 39988,
+      "share_of_incidents": 0.3426593201312779
+    },
+    {
+      "category": "NON-CRIMINAL",
+      "offense_records": 17866,
+      "incidents": 17456,
+      "share_of_incidents": 0.14958140172580742
+    },
+    {
+      "category": "OTHER OFFENSES",
+      "offense_records": 19599,
+      "incidents": 17093,
+      "share_of_incidents": 0.14647083522566604
+    }
+  ],
   "largest_district": {
     "district": "SOUTHERN",
-    "reported_incidents": 28445
+    "incidents": 22239,
+    "share": 0.1905573882867058
   },
-  "nonclaim": "Counts are neither crime rates nor evidence that a location is safe or unsafe."
+  "busiest_hour": {
+    "hour": 18,
+    "share": 0.06699286197825174
+  },
+  "quietest_hour": {
+    "hour": 5,
+    "share": 0.010882698223635164
+  },
+  "display_sample_incidents": 500
 }
