@@ -60,3 +60,7 @@ jupyter nbconvert --to notebook --execute --inplace sf_crime_folium.ipynb
 - Counts aren't rates: there's no population, visitor or land-use denominator, so a busy district isn't necessarily a riskier one.
 - The data covers one year under the district boundaries in use in 2016. SFPD redrew its districts in October 2026.
 - Folium maps don't render in GitHub's notebook preview. Open the notebook in Jupyter or nbviewer.
+
+## License
+
+The code and analysis in this repository are released under the [MIT License](LICENSE). The incident data comes from the San Francisco Police Department via DataSF, as mirrored by IBM Skills Network, and keeps its original terms; see [`data/SOURCES.json`](data/SOURCES.json).
